@@ -8,17 +8,17 @@ defmodule PhoenixMazurka.Router do
   scope "/", PhoenixMazurka do
     pipe_through :api
 
-    get "/", RootController, []
-    get "/users/:user", UserController, []
+    get "/", RootController, :action
+    get "/users/:user", UserController, :action
   end
 
   def resolve(%{resource: PhoenixMazurka.RootController} = affordance, _source, conn) do
-    path = __MODULE__.Helpers.root_path(conn, [])
+    path = __MODULE__.Helpers.root_path(conn, :action)
     affordance
     |> update_affordance("GET", path, conn)
   end
   def resolve(%{resource: PhoenixMazurka.UserController, params: %{"user" => user}} = affordance, _source, conn) do
-    path = __MODULE__.Helpers.user_path(conn, [], user)
+    path = __MODULE__.Helpers.user_path(conn, :action, user)
     affordance
     |> update_affordance("GET", path, conn)
   end

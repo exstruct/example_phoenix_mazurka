@@ -33,7 +33,7 @@ defmodule PhoenixMazurka.Web do
       use Phoenix.Controller.Pipeline
 
       use Mazurka.Resource
-      use Mazurka.Plug, router_key: :phoenix_router
+      use Mazurka.Plug, router_key: :phoenix_router, plug_init: false
     end
   end
 

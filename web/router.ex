@@ -8,21 +8,24 @@ defmodule PhoenixMazurka.Router do
   scope "/", PhoenixMazurka do
     pipe_through :api
 
-    get "/", RootController, :index
-    get "/users/:user", UserController, :index
+    get "/", RootController, []
+    get "/users/:user", UserController, []
   end
 
-  def resolve_resource("/", _source, _conn) do
-    PhoenixMazurka.RootController
+  def resolve(%{resource: PhoenixMazurka.RootController} = affordance, _source, conn) do
+    path = __MODULE__.Helpers.root_path(conn, [])
+    affordance
+    |> update_affordance("GET", path, conn)
   end
-  def resolve_resource("/users/:user", _source, _conn) do
-    PhoenixMazurka.UserController
+  def resolve(%{resource: PhoenixMazurka.UserController, params: %{"user" => user}} = affordance, _source, conn) do
+    path = __MODULE__.Helpers.user_path(conn, [], user)
+    affordance
+    |> update_affordance("GET", path, conn)
   end
 
-  def resolve(%{resource: PhoenixMazurka.RootController} = affordance, _source, _conn) do
-    %{affordance | method: "GET", path: "/"}
-  end
-  def resolve(%{resource: PhoenixMazurka.UserController, params: %{"user" => user}} = affordance, _source, _conn) do
-    %{affordance | method: "GET", path: "/users/#{user}"}
+  defp update_affordance(affordance, method, path, conn) do
+    affordance
+    |> Mazurka.Plug.update_affordance(conn)
+    |> Map.merge(%{method: method, path: path})
   end
 end

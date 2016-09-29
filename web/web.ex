@@ -27,6 +27,16 @@ defmodule PhoenixMazurka.Web do
     end
   end
 
+  def resource do
+    quote do
+      import Plug.Conn
+      use Phoenix.Controller.Pipeline
+
+      use Mazurka.Resource
+      use Mazurka.Plug, router_key: :phoenix_router
+    end
+  end
+
   def view do
     quote do
       use Phoenix.View, root: "web/templates"

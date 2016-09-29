@@ -3,6 +3,6 @@ defmodule PhoenixMazurka.RootControllerTest do
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"
-    assert %{"account" => %{"href" => "/users/" <> _}} = json_response(conn, 200)
+    assert %{"account" => %{"href" => _}} = json_response(conn, 200)
   end
 end

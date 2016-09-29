@@ -32,6 +32,7 @@ defmodule PhoenixMazurka.Mixfile do
      {:phoenix_html, "~> 2.6"},
      {:gettext, "~> 0.11"},
      {:cowboy, "~> 1.0"},
-     {:mazurka, "~> 1.0.5"}]
+     {:mazurka, "~> 1.0.5"},
+     {:mazurka_plug, "~> 0.1.0"}]
   end
 end
